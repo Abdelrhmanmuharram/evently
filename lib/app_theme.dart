@@ -13,18 +13,36 @@ class AppTheme {
   static const Color white = Color(0xFFFFFFFF);
 
   static ThemeData lightTheme = ThemeData(
+    primaryColor: primary,
     scaffoldBackgroundColor: background,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: white,
       selectedItemColor: primary,
       unselectedItemColor: secondText,
-      type: BottomNavigationBarType.fixed
+      type: BottomNavigationBarType.fixed,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: primary,
       foregroundColor: white,
-      shape: CircleBorder()
-    )
+      shape: CircleBorder(),
+    ),
+    textTheme: TextTheme(
+      titleSmall: TextStyle(
+        color: secondText,
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+      ),
+      titleMedium: TextStyle(
+        color: mainText,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
+      titleLarge: TextStyle(
+        color: mainText,
+        fontSize: 20,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
   );
   static ThemeData darkTheme = ThemeData();
 }
