@@ -4,8 +4,6 @@ import 'package:evently/tabs/home/home_tab.dart';
 import 'package:evently/tabs/profile/profile_tab.dart';
 import 'package:flutter/material.dart';
 
-import 'app_theme.dart';
-
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
   const HomeScreen({super.key});
@@ -45,16 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
             activeIcon: NavBarIcon(iconName: 'profile_active'),
             label: 'Profile',
           ),
-          BottomNavigationBarItem(
-            icon: NavBarIcon(iconName: 'profile'),
-            activeIcon: NavBarIcon(iconName: 'profile_active'),
-            label: 'Profile',
-          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.add, size: 28),
+        child: Icon(Icons.add, size: 28,),
       ),
       floatingActionButtonLocation: .endFloat,
     );
