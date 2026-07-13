@@ -26,6 +26,28 @@ class AppTheme {
       foregroundColor: white,
       shape: CircleBorder(),
     ),
+    inputDecorationTheme: InputDecorationThemeData(
+      filled: true,
+      fillColor: white,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide.none,
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      hintStyle: TextStyle(
+        color: secondText,
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: secondText.withAlpha(50)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: primary),
+      )
+    ),
     textTheme: TextTheme(
       titleSmall: TextStyle(
         color: secondText,
