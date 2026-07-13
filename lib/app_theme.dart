@@ -11,6 +11,7 @@ class AppTheme {
   static const Color secondText = Color(0xFF686868);
   static const Color red = Color(0xFFFF3232);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color switchBackground = Color(0xFFE9EAEB);
 
   static ThemeData lightTheme = ThemeData(
     primaryColor: primary,
@@ -46,7 +47,21 @@ class AppTheme {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(color: primary),
-      )
+      ),
+    ),
+    listTileTheme: ListTileThemeData(
+      tileColor: white,
+      minTileHeight: 0,
+      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: AppTheme.secondText.withAlpha(50)),
+      ),
+      titleTextStyle: TextStyle(
+        color: mainText,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
     ),
     textTheme: TextTheme(
       titleSmall: TextStyle(
