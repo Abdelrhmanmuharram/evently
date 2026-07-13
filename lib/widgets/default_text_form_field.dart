@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DefaultTextFormField extends StatelessWidget {
-  String? hintText;
-  String? Function(String?)? validator;
-  TextEditingController? controller;
-  void Function(String)? onChange;
-  String? prefixIconImageName;
-  String? suffixIconImageName;
+  final String? hintText;
+  final String? Function(String?)? validator;
+  final TextEditingController? controller;
+  final void Function(String)? onChange;
+  final String? prefixIconImageName;
+  final String? suffixIconImageName;
 
-  DefaultTextFormField({
+  const DefaultTextFormField({
     super.key,
     required this.hintText,
     this.validator,
