@@ -34,15 +34,13 @@ class HomeHeader extends StatelessWidget {
                       label: 'All',
                       icon: Icons.all_inclusive,
                     ),
-                    ...CategoryModel.categories
-                        .map(
-                          (category) => TabItem(
-                            isSelected: false,
-                            label: category.name,
-                            icon: category.icon,
-                          ),
-                        )
-                        .toList(),
+                    ...CategoryModel.categories.map(
+                      (category) => TabItem(
+                        isSelected: false,
+                        label: category.name,
+                        icon: category.icon,
+                      ),
+                    ),
                   ],
                 ),
               ),
