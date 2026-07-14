@@ -1,3 +1,4 @@
+import 'package:evently/auth/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'app_theme.dart';
 import 'home_screen.dart';
@@ -15,8 +16,9 @@ class EventlyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.routeName : (_) => const HomeScreen(),
+        RegisterScreen.routeName: (_) => const RegisterScreen()
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: RegisterScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,

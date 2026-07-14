@@ -12,6 +12,8 @@ class AppTheme {
   static const Color red = Color(0xFFFF3232);
   static const Color white = Color(0xFFFFFFFF);
   static const Color switchBackground = Color(0xFFE9EAEB);
+  static const Color grey = Color(0xFFB9B9B9);
+  static const Color line = Color(0xFFF0F0F0);
 
   static ThemeData lightTheme = ThemeData(
     primaryColor: primary,
@@ -49,6 +51,23 @@ class AppTheme {
         borderSide: BorderSide(color: primary),
       ),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: primary,
+        textStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: .w600,
+
+          decoration: .underline,
+        ),
+      ),
+    ),
     listTileTheme: ListTileThemeData(
       tileColor: white,
       minTileHeight: 0,
@@ -78,6 +97,11 @@ class AppTheme {
         color: mainText,
         fontSize: 20,
         fontWeight: FontWeight.w500,
+      ),
+      headlineSmall: TextStyle(
+        color: primary,
+        fontSize: 24,
+        fontWeight: FontWeight.w800,
       ),
     ),
   );
