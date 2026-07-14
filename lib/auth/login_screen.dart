@@ -1,3 +1,4 @@
+import 'package:evently/home_screen.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:flutter/material.dart';
 
@@ -68,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 48),
-              DefaultElevatedButton(onPressed: () {}, label: 'Login'),
+              DefaultElevatedButton(onPressed: login, label: 'Login'),
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: .center,
@@ -114,5 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void login() {
+    Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
   }
 }

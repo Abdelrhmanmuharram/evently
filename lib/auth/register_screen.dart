@@ -2,6 +2,7 @@ import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 import '../app_theme.dart';
+import '../home_screen.dart';
 import '../widgets/default_elevated_button.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -74,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 isPassword: true,
               ),
               const SizedBox(height: 52),
-              DefaultElevatedButton(onPressed: () {}, label: 'Register'),
+              DefaultElevatedButton(onPressed: register, label: 'Register'),
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: .center,
@@ -120,5 +121,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  void register() {
+    Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
   }
 }
