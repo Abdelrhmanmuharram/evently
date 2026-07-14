@@ -64,6 +64,10 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
       validator: widget.validator,
       controller: widget.controller,
       obscureText: widget.isPassword && isObscure,
+      autovalidateMode: .onUserInteraction,
+      cursorColor: Theme.of(context).primaryColor,
+      onTapOutside: (_) => FocusScope.of(context).unfocus(),
+
     );
   }
 }
