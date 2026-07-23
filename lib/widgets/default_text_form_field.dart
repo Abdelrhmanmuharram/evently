@@ -10,6 +10,7 @@ class DefaultTextFormField extends StatefulWidget {
   final String? prefixIconImageName;
   final String? suffixIconImageName;
   final bool isPassword;
+  final int maxLine;
 
   const DefaultTextFormField({
     super.key,
@@ -20,6 +21,7 @@ class DefaultTextFormField extends StatefulWidget {
     this.prefixIconImageName,
     this.suffixIconImageName,
     this.isPassword = false,
+    this.maxLine = 1,
   });
 
   @override
@@ -67,7 +69,7 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
       autovalidateMode: .onUserInteraction,
       cursorColor: Theme.of(context).primaryColor,
       onTapOutside: (_) => FocusScope.of(context).unfocus(),
-
+      maxLines: widget.maxLine,
     );
   }
 }
