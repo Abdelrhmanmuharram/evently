@@ -1,11 +1,14 @@
 import 'package:evently/auth/login_screen.dart';
 import 'package:evently/auth/register_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'app_theme.dart';
 import 'create_event_screen.dart';
 import 'home_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const EventlyApp());
 }
 
