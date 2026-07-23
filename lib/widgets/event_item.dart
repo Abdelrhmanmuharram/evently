@@ -17,11 +17,14 @@ class EventItem extends StatelessWidget {
             border: Border.all(color: AppTheme.secondText.withAlpha(50)),
             borderRadius: BorderRadius.circular(18),
           ),
-          child: Image.asset(
-            'assets/images/sport.png',
-            width: .infinity,
-            height: screenSize.size.height * .23,
-            fit: .fill,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(18),
+            child: Image.asset(
+              'assets/images/sport.png',
+              width: .infinity,
+              height: screenSize.size.height * .23,
+              fit: .fill,
+            ),
           ),
         ),
         Container(

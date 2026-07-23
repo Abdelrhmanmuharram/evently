@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 
 import '../../models/category_model.dart';
 
-class HomeHeader extends StatelessWidget {
+class HomeHeader extends StatefulWidget {
   const HomeHeader({super.key});
 
+  @override
+  State<HomeHeader> createState() => _HomeHeaderState();
+}
+
+class _HomeHeaderState extends State<HomeHeader> {
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -30,18 +36,25 @@ class HomeHeader extends StatelessWidget {
                   labelPadding: EdgeInsets.only(right: 8),
                   tabs: [
                     TabItem(
-                      isSelected: true,
+                      isSelected: currentIndex == 0,
                       label: 'All',
-                      icon: Icons.all_inclusive,
+                      icon: Icons.category_outlined,
                     ),
                     ...CategoryModel.categories.map(
                       (category) => TabItem(
-                        isSelected: false,
+                        isSelected:
+                            currentIndex ==
+                            CategoryModel.categories.indexOf(category) + 1,
                         label: category.name,
                         icon: category.icon,
                       ),
                     ),
                   ],
+                  onTap: (index) {
+                    if(currentIndex == index) return;
+                    currentIndex = index;
+                    setState(() {});
+                  },
                 ),
               ),
             ),
