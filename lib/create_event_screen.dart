@@ -1,3 +1,4 @@
+import 'package:evently/firebase_service.dart';
 import 'package:evently/models/category_model.dart';
 import 'package:evently/models/event_model.dart';
 import 'package:evently/tabs/home/tab_item.dart';
@@ -107,6 +108,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   const SizedBox(height: 4),
                   Text('Description', style: textTheme.titleMedium),
                   DefaultTextFormField(
+                    controller: descriptionController,
                     validator: (value) {
                       if (value == null || value.length < 2) {
                         return 'Please enter your description';
@@ -198,6 +200,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         description: descriptionController.text,
         dateTime: date,
       );
+      FirebaseService.createEvent(
+        event,
+      ).then((_) => Navigator.of(context).pop());
     }
   }
 }
