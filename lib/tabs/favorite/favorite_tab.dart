@@ -18,13 +18,14 @@ class FavoriteTab extends StatelessWidget {
               suffixIconImageName: 'search',
             ),
             const SizedBox(height: 16),
-            Expanded(
-              child: ListView.separated(
-                itemBuilder: (_, _) => EventItem(),
-                separatorBuilder: (_, _) => SizedBox(height: 16),
-                itemCount: 10,
-              ),
-            ),
+            // Expanded(
+            //   child: ListView.separated(
+            //     itemBuilder: (_, index) => EventItem(
+            //     ),
+            //     separatorBuilder: (_, _) => SizedBox(height: 16),
+            //     itemCount: 10,
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -51,8 +51,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                     ),
                   ],
                   onTap: (index) {
-                    if(currentIndex == index) return;
+                    if (currentIndex == index) return;
                     currentIndex = index;
+                    CategoryModel selectedCategory =
+                        CategoryModel.categories[index - 1];
                     setState(() {});
                   },
                 ),
