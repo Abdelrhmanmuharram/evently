@@ -11,6 +11,9 @@ class DefaultTextFormField extends StatefulWidget {
   final String? suffixIconImageName;
   final bool isPassword;
   final int maxLine;
+  final bool readOnly;
+  final bool enabled;
+
 
   const DefaultTextFormField({
     super.key,
@@ -22,6 +25,8 @@ class DefaultTextFormField extends StatefulWidget {
     this.suffixIconImageName,
     this.isPassword = false,
     this.maxLine = 1,
+    this.readOnly = false,
+    this.enabled = true,
   });
 
   @override
@@ -70,6 +75,8 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
       cursorColor: Theme.of(context).primaryColor,
       onTapOutside: (_) => FocusScope.of(context).unfocus(),
       maxLines: widget.maxLine,
+      readOnly: widget.readOnly,
+      enabled: widget.enabled,
     );
   }
 }

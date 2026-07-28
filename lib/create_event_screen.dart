@@ -2,7 +2,7 @@ import 'package:evently/firebase_service.dart';
 import 'package:evently/models/category_model.dart';
 import 'package:evently/models/event_model.dart';
 import 'package:evently/tabs/home/tab_item.dart';
-import 'package:evently/widgets/arrow_back.dart';
+import 'package:evently/widgets/action_item.dart';
 import 'package:evently/widgets/default_elevated_button.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(leading: ArrowBack(), title: Text('Add event')),
+      appBar: AppBar(leading: ActionItem(), title: Text('Add event')),
       body: Form(
         key: formKey,
         child: Column(

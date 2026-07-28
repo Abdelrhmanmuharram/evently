@@ -14,6 +14,8 @@ class AppTheme {
   static const Color switchBackground = Color(0xFFE9EAEB);
   static const Color grey = Color(0xFFB9B9B9);
   static const Color line = Color(0xFFF0F0F0);
+  static const Color disable = Color(0xFFB9B9B9);
+
 
   static ThemeData lightTheme = ThemeData(
     primaryColor: primary,
