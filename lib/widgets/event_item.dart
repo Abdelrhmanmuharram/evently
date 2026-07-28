@@ -3,7 +3,7 @@ import 'package:evently/models/event_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import '../event_details.dart';
+import '../event_details_screen.dart';
 
 class EventItem extends StatelessWidget {
   EventModel event;
@@ -18,7 +18,7 @@ class EventItem extends StatelessWidget {
       onTap: () {
         Navigator.of(
           context,
-        ).pushNamed(EventDetails.routeName, arguments: event);
+        ).pushNamed(EventDetailsScreen.routeName, arguments: event);
       },
       child: Stack(
         children: [

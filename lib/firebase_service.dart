@@ -24,4 +24,11 @@ class FirebaseService {
         .get();
     return querySnapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
   }
+
+  static Future<void> editEvent(EventModel event){
+    print("HERE =======> ${event.id}");
+    CollectionReference<EventModel> eventCollection = getEventCollection();
+    DocumentReference eventDoc = eventCollection.doc(event.id);
+    return eventDoc.update(event.toJson());
+  }
 }

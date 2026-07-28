@@ -4,7 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'app_theme.dart';
 import 'create_event_screen.dart';
-import 'event_details.dart';
+import 'edit_event_screen.dart';
+import 'event_details_screen.dart';
 import 'home_screen.dart';
 
 Future<void> main() async {
@@ -25,7 +26,8 @@ class EventlyApp extends StatelessWidget {
         RegisterScreen.routeName : (_) => const RegisterScreen(),
         LoginScreen.routeName : (_) => const LoginScreen(),
         CreateEventScreen.routeName : (_) => const CreateEventScreen(),
-        EventDetails.routeName : (_) => const EventDetails(),
+        EventDetailsScreen.routeName : (_) => const EventDetailsScreen(),
+        EditEventScreen.routeName : (_) => const EditEventScreen(),
       },
       initialRoute: HomeScreen.routeName,
       theme: AppTheme.lightTheme,

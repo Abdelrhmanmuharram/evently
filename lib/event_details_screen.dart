@@ -3,13 +3,13 @@ import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:evently/widgets/info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'app_theme.dart';
+import 'edit_event_screen.dart';
 import 'models/event_model.dart';
 
-class EventDetails extends StatelessWidget {
+class EventDetailsScreen extends StatelessWidget {
   static const String routeName = '/event-details';
-  const EventDetails({super.key});
+  const EventDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,15 @@ class EventDetails extends StatelessWidget {
         leading: ActionItem(),
         title: Text('Edit details'),
         actions: [
-          ActionItem(svgPicture: 'edit'),
-          ActionItem(svgPicture: 'delete'),
+          ActionItem(
+            svgPicture: 'edit',
+            onPressed: () {
+              Navigator.of(
+                context,
+              ).pushNamed(EditEventScreen.routeName, arguments: event);
+            },
+          ),
+          ActionItem(svgPicture: 'delete', onPressed: deleteEvent),
         ],
       ),
       body: Padding(
@@ -71,4 +78,5 @@ class EventDetails extends StatelessWidget {
       ),
     );
   }
+  void deleteEvent() {}
 }
