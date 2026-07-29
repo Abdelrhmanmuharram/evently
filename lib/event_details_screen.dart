@@ -1,3 +1,4 @@
+import 'package:evently/firebase_service.dart';
 import 'package:evently/widgets/action_item.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:evently/widgets/info_card.dart';
@@ -31,7 +32,14 @@ class EventDetailsScreen extends StatelessWidget {
               ).pushNamed(EditEventScreen.routeName, arguments: event);
             },
           ),
-          ActionItem(svgPicture: 'delete', onPressed: deleteEvent),
+          ActionItem(
+            svgPicture: 'delete',
+            onPressed: () async {
+              await FirebaseService.deleteEvent(
+                event,
+              ).then((_) => Navigator.of(context).pop());
+            },
+          ),
         ],
       ),
       body: Padding(
@@ -78,5 +86,4 @@ class EventDetailsScreen extends StatelessWidget {
       ),
     );
   }
-  void deleteEvent() {}
 }

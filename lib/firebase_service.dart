@@ -25,10 +25,15 @@ class FirebaseService {
     return querySnapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
   }
 
-  static Future<void> editEvent(EventModel event){
-    print("HERE =======> ${event.id}");
+  static Future<void> editEvent(EventModel event) {
     CollectionReference<EventModel> eventCollection = getEventCollection();
     DocumentReference eventDoc = eventCollection.doc(event.id);
     return eventDoc.update(event.toJson());
+  }
+
+  static Future<void> deleteEvent(EventModel event) {
+    CollectionReference<EventModel> eventCollection = getEventCollection();
+    DocumentReference eventDoc = eventCollection.doc(event.id);
+    return eventDoc.delete();
   }
 }
