@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/models/event_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'models/user_model.dart';
 
 class FirebaseService {
   static CollectionReference<EventModel> getEventCollection() =>
@@ -10,6 +13,15 @@ class FirebaseService {
                 EventModel.fromJson(snapshot.data()!),
             toFirestore: (event, _) => event.toJson(),
           );
+
+  static CollectionReference<UserModel> getUserCollection() => FirebaseFirestore
+      .instance
+      .collection('users')
+      .withConverter<UserModel>(
+        fromFirestore: (snapshot, _) => UserModel.fromJson(snapshot.data()!),
+        toFirestore: (user, _) => user.toJson(),
+      );
+
   static Future<void> createEvent(EventModel event) {
     CollectionReference<EventModel> eventCollection = getEventCollection();
     DocumentReference eventDoc = eventCollection.doc();
@@ -36,4 +48,33 @@ class FirebaseService {
     DocumentReference eventDoc = eventCollection.doc(event.id);
     return eventDoc.delete();
   }
+
+  static Future<UserModel> register(
+    String name,
+    String email,
+    String password,
+  ) async {
+    UserCredential credential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
+    UserModel user = UserModel(
+      id: credential.user!.uid,
+      name: name,
+      email: email,
+    );
+    CollectionReference<UserModel> userCollection = getUserCollection();
+    await userCollection.doc(user.id).set(user);
+    return user;
+  }
+
+  static Future<UserModel> login(String email, String password) async {
+    UserCredential credential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+    CollectionReference<UserModel> userCollection = getUserCollection();
+    DocumentSnapshot<UserModel> docSnapshot = await userCollection
+        .doc(credential.user!.uid)
+        .get();
+    return docSnapshot.data()!;
+  }
+
+  static Future<void> logout() => FirebaseAuth.instance.signOut();
 }

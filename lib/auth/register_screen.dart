@@ -1,3 +1,4 @@
+import 'package:evently/firebase_service.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -136,7 +138,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void register() {
     if (formKey.currentState!.validate()) {
-      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      FirebaseService.register(
+        nameController.text,
+        emailController.text,
+        passwordController.text,
+      ).then((user) {
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      });
     }
   }
 }

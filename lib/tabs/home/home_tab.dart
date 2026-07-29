@@ -1,7 +1,6 @@
 import 'package:evently/firebase_service.dart';
 import 'package:evently/models/event_model.dart';
 import 'package:flutter/material.dart';
-
 import '../../widgets/event_item.dart';
 import 'home_header.dart';
 
