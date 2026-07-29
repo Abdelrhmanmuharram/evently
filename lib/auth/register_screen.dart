@@ -1,9 +1,11 @@
 import 'package:evently/firebase_service.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../app_theme.dart';
 import '../home_screen.dart';
+import '../providers/user_provider.dart';
 import '../widgets/default_elevated_button.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -143,6 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         emailController.text,
         passwordController.text,
       ).then((user) {
+        Provider.of<UserProvider>(context, listen: false).updateCurrentUser(user);
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       });
     }

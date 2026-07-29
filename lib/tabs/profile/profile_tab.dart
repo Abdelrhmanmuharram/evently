@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../app_theme.dart';
+import '../../auth/login_screen.dart';
+import '../../firebase_service.dart';
 import '../../models/language_model.dart';
+import '../../models/user_model.dart';
+import '../../providers/user_provider.dart';
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
 
   @override
   Widget build(BuildContext context) {
+    UserModel currentUser = Provider.of<UserProvider>(context).currentUser!;
     TextTheme textTheme = Theme.of(context).textTheme;
     Color primaryColor = Theme.of(context).primaryColor;
     return SafeArea(
@@ -21,9 +27,10 @@ class ProfileTab extends StatelessWidget {
               radius: 58,
               backgroundImage: AssetImage('assets/images/route_logo.png'),
             ),
-            Text('User Name', style: textTheme.titleLarge),
+            const SizedBox(height: 16),
+            Text(currentUser.name, style: textTheme.titleLarge),
             const SizedBox(height: 4),
-            Text('User Email', style: textTheme.titleSmall),
+            Text(currentUser.email, style: textTheme.titleSmall),
             const SizedBox(height: 32),
             SwitchListTile(
               value: true,
@@ -57,7 +64,12 @@ class ProfileTab extends StatelessWidget {
             const SizedBox(height: 16),
             ListTile(
               title: Text('Logout'),
-              trailing: SvgPicture.asset('assets/icons/logout.svg'),
+              trailing: InkWell(
+                onTap: () => FirebaseService.logout().then(
+                  (_) => Navigator.of(context).pushReplacementNamed(LoginScreen.routeName),
+                ),
+                child: SvgPicture.asset('assets/icons/logout.svg'),
+              ),
             ),
           ],
         ),
