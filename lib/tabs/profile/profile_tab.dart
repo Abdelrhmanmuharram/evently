@@ -65,9 +65,13 @@ class ProfileTab extends StatelessWidget {
             ListTile(
               title: Text('Logout'),
               trailing: InkWell(
-                onTap: () => FirebaseService.logout().then(
-                  (_) => Navigator.of(context).pushReplacementNamed(LoginScreen.routeName),
-                ),
+                onTap: () => FirebaseService.logout().then((_) {
+                  Navigator.of(
+                    context,
+                  ).pushReplacementNamed(LoginScreen.routeName).then((_) {
+                    Provider.of<UserProvider>(context).updateCurrentUser(null);
+                  });
+                }),
                 child: SvgPicture.asset('assets/icons/logout.svg'),
               ),
             ),
