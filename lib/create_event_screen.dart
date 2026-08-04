@@ -2,6 +2,7 @@ import 'package:evently/firebase_service.dart';
 import 'package:evently/models/category_model.dart';
 import 'package:evently/models/event_model.dart';
 import 'package:evently/tabs/home/tab_item.dart';
+import 'package:evently/ui_utils.dart';
 import 'package:evently/widgets/action_item.dart';
 import 'package:evently/widgets/default_elevated_button.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
@@ -200,9 +201,12 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         description: descriptionController.text,
         dateTime: date,
       );
-      FirebaseService.createEvent(
-        event,
-      ).then((_) => Navigator.of(context).pop());
+      FirebaseService.createEvent(event).then((_) {
+        Navigator.of(context).pop();
+        UIUtils.showSuccessMessage('Event created successfully');
+      }).catchError((_) {
+        UIUtils.showErrorMessage('Failed to create event');
+      });
     }
   }
 }
