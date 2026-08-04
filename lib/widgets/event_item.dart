@@ -1,9 +1,12 @@
 import 'package:evently/app_theme.dart';
 import 'package:evently/models/event_model.dart';
+import 'package:evently/providers/events_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../event_details_screen.dart';
+import '../providers/user_provider.dart';
 
 class EventItem extends StatelessWidget {
   EventModel event;
@@ -11,6 +14,8 @@ class EventItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+    bool isFavorite = userProvider.checkFavoriteEvent(event.id);
     TextTheme textTheme = Theme.of(context).textTheme;
     Color primaryColor = Theme.of(context).primaryColor;
     MediaQueryData screenSize = MediaQuery.of(context);
@@ -76,15 +81,41 @@ class EventItem extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8),
-                  SvgPicture.asset(
-                    'assets/icons/favorite.svg',
-                    width: 24,
-                    height: 24,
-                    fit: .scaleDown,
-                    colorFilter: ColorFilter.mode(
-                      primaryColor,
-                      BlendMode.srcIn,
-                    ),
+                  InkWell(
+                    onTap: () {
+                      if (isFavorite) {
+                        userProvider.removeFavoriteEvent(event.id);
+                        Provider.of<EventsProvider>(
+                          context,
+                          listen: false,
+                        ).filterFavoriteEvents(
+                          userProvider.currentUser!.favoriteEventIds,
+                        );
+                      } else {
+                        userProvider.addFavoriteEvent(event.id);
+                      }
+                    },
+                    child: isFavorite
+                        ? SvgPicture.asset(
+                            'assets/icons/favorite_active.svg',
+                            width: 24,
+                            height: 24,
+                            fit: .scaleDown,
+                            colorFilter: ColorFilter.mode(
+                              primaryColor,
+                              BlendMode.srcIn,
+                            ),
+                          )
+                        : SvgPicture.asset(
+                            'assets/icons/favorite.svg',
+                            width: 24,
+                            height: 24,
+                            fit: .scaleDown,
+                            colorFilter: ColorFilter.mode(
+                              primaryColor,
+                              BlendMode.srcIn,
+                            ),
+                          ),
                   ),
                 ],
               ),
