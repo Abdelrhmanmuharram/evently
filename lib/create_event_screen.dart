@@ -1,12 +1,14 @@
 import 'package:evently/firebase_service.dart';
 import 'package:evently/models/category_model.dart';
 import 'package:evently/models/event_model.dart';
+import 'package:evently/providers/events_provider.dart';
 import 'package:evently/providers/settings_provider.dart';
 import 'package:evently/tabs/home/tab_item.dart';
 import 'package:evently/ui_utils.dart';
 import 'package:evently/widgets/action_item.dart';
 import 'package:evently/widgets/default_elevated_button.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -136,7 +138,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     hintText: appLocalizations.eventTitle,
                   ),
                   const SizedBox(height: 4),
-                  Text(appLocalizations.description, style: textTheme.titleMedium),
+                  Text(
+                    appLocalizations.description,
+                    style: textTheme.titleMedium,
+                  ),
                   const SizedBox(height: 4),
                   DefaultTextFormField(
                     controller: descriptionController,
@@ -153,7 +158,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     children: [
                       SvgPicture.asset('assets/icons/calendar.svg'),
                       const SizedBox(width: 8),
-                      Text(appLocalizations.eventDate, style: textTheme.titleMedium),
+                      Text(
+                        appLocalizations.eventDate,
+                        style: textTheme.titleMedium,
+                      ),
                       const Spacer(),
                       TextButton(
                         onPressed: () async {
@@ -181,7 +189,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     children: [
                       SvgPicture.asset('assets/icons/clock.svg'),
                       const SizedBox(width: 8),
-                      Text(appLocalizations.eventTime, style: textTheme.titleMedium),
+                      Text(
+                        appLocalizations.eventTime,
+                        style: textTheme.titleMedium,
+                      ),
                       const Spacer(),
                       TextButton(
                         onPressed: () async {
@@ -196,7 +207,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           }
                         },
                         child: Text(
-                          selectedTime?.format(context) ?? appLocalizations.chooseTime,
+                          selectedTime?.format(context) ??
+                              appLocalizations.chooseTime,
                         ),
                       ),
                     ],
@@ -226,12 +238,19 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         selectedTime!.minute,
       );
       EventModel event = EventModel(
+        ownerId: FirebaseAuth.instance.currentUser!.uid,
         category: selectedCategory,
         title: titleController.text,
         description: descriptionController.text,
         dateTime: date,
       );
       FirebaseService.createEvent(event)
+          .then((_) async {
+            await Provider.of<EventsProvider>(
+              context,
+              listen: false,
+            ).getEvents();
+          })
           .then((_) {
             Navigator.of(context).pop();
             UIUtils.showSuccessMessage('Event created successfully');

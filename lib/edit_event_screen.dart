@@ -237,6 +237,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                         );
                         EventModel event = EventModel(
                           id: currentEvent!.id,
+                          ownerId: currentEvent!.ownerId,
                           category: selectedCategory,
                           title: titleController.text,
                           description: descriptionController.text,

@@ -3,6 +3,7 @@ import 'package:evently/providers/settings_provider.dart';
 import 'package:evently/widgets/action_item.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:evently/widgets/info_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,8 @@ class EventDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUid = FirebaseAuth.instance.currentUser!.uid;
+
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     EventModel event = ModalRoute.of(context)!.settings.arguments as EventModel;
@@ -28,30 +31,32 @@ class EventDetailsScreen extends StatelessWidget {
         leading: ActionItem(
           svgPicture: settingsProvider.isArabic
               ? settingsProvider.isDark
-                  ? 'arrow_right'
-                  : 'arrow_right_light'
+                    ? 'arrow_right'
+                    : 'arrow_right_light'
               : settingsProvider.isDark
               ? 'arrow_back_light'
               : 'arrow_back',
         ),
         title: Text(appLocalizations.details),
         actions: [
-          ActionItem(
-            svgPicture: 'edit',
-            onPressed: () {
-              Navigator.of(
-                context,
-              ).pushNamed(EditEventScreen.routeName, arguments: event);
-            },
-          ),
-          ActionItem(
-            svgPicture: 'delete',
-            onPressed: () async {
-              await FirebaseService.deleteEvent(
-                event,
-              ).then((_) => Navigator.of(context).pop());
-            },
-          ),
+          if (event.ownerId == currentUid)
+            ActionItem(
+              svgPicture: 'edit',
+              onPressed: () {
+                Navigator.of(
+                  context,
+                ).pushNamed(EditEventScreen.routeName, arguments: event);
+              },
+            ),
+          if (event.ownerId == currentUid)
+            ActionItem(
+              svgPicture: 'delete',
+              onPressed: () async {
+                await FirebaseService.deleteEvent(
+                  event,
+                ).then((_) => Navigator.of(context).pop());
+              },
+            ),
         ],
       ),
       body: Padding(
