@@ -1,5 +1,6 @@
 import 'package:evently/firebase_service.dart';
 import 'package:evently/home_screen.dart';
+import 'package:evently/models/user_model.dart';
 import 'package:evently/providers/user_provider.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -128,12 +129,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 24),
                 DefaultElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final user = await FirebaseService.signInWithGoogle();
+                    if (user != null) {
+                      Provider.of<UserProvider>(context, listen: false)
+                          .updateCurrentUser(user);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HomeScreen()),
+                      );
+                    }
+                  },
                   label: AppLocalizations.of(context)!.loginInWithGoogle,
                   backgroundColor: Theme.of(context).cardColor,
                   foregroundColor: Theme.of(context).primaryColor,
                   icon: 'google',
-                ),
+                )
               ],
             ),
           ),

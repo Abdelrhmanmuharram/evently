@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/models/event_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'models/user_model.dart';
 
@@ -97,5 +98,41 @@ class FirebaseService {
     return userDoc.update({
       'favoriteEventIds': FieldValue.arrayRemove([eventId]),
     });
+  }
+
+  static Future<UserModel?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return null;
+
+      final GoogleSignInAuthentication googleAuth =
+      await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      UserCredential userCredential =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      CollectionReference<UserModel> userCollection = getUserCollection();
+      DocumentSnapshot<UserModel> docSnapshot =
+      await userCollection.doc(userCredential.user!.uid).get();
+      UserModel user;
+      if (!docSnapshot.exists) {
+        user = UserModel(
+          id: userCredential.user!.uid,
+          name: userCredential.user!.displayName ?? '',
+          email: userCredential.user!.email ?? '',
+          favoriteEventIds: [],
+        );
+        await userCollection.doc(user.id).set(user);
+      } else {
+        user = docSnapshot.data()!;
+      }
+      return user;
+    } catch (e) {
+      print('خطأ: $e');
+      return null;
+    }
   }
 }
