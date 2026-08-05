@@ -19,7 +19,10 @@ class _FavoriteTabState extends State<FavoriteTab> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+      UserProvider userProvider = Provider.of<UserProvider>(
+        context,
+        listen: false,
+      );
       eventsProvider.filterFavoriteEvents(
         userProvider.currentUser!.favoriteEventIds,
       );
@@ -37,14 +40,17 @@ class _FavoriteTabState extends State<FavoriteTab> {
             DefaultTextFormField(
               hintText: 'Search for events',
               suffixIconImageName: 'search',
+              onChange: (query) {
+                eventsProvider.searchFavoriteEvents(query);
+              },
             ),
             const SizedBox(height: 16),
             Expanded(
               child: ListView.separated(
                 itemBuilder: (_, index) =>
-                    EventItem(eventsProvider.favoriteEvents[index]),
+                    EventItem(eventsProvider.displayedFavoriteEvents[index]),
                 separatorBuilder: (_, _) => SizedBox(height: 16),
-                itemCount: eventsProvider.favoriteEvents.length,
+                itemCount: eventsProvider.displayedFavoriteEvents.length,
               ),
             ),
           ],

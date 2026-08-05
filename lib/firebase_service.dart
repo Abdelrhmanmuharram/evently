@@ -84,7 +84,9 @@ class FirebaseService {
     DocumentReference<UserModel> userDoc = userCollection.doc(
       FirebaseAuth.instance.currentUser!.uid,
     );
-    return userDoc.update({'favoriteEventIds': eventId});
+    return userDoc.update({
+      'favoriteEventIds': FieldValue.arrayUnion([eventId]),
+    });
   }
 
   static Future<void> removeFavoriteEvent(String eventId) async {
@@ -92,6 +94,8 @@ class FirebaseService {
     DocumentReference<UserModel> userDoc = userCollection.doc(
       FirebaseAuth.instance.currentUser!.uid,
     );
-    return userDoc.update({'favoriteEventIds': eventId});
+    return userDoc.update({
+      'favoriteEventIds': FieldValue.arrayRemove([eventId]),
+    });
   }
 }
