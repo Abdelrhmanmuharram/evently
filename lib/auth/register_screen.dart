@@ -1,4 +1,5 @@
 import 'package:evently/firebase_service.dart';
+import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/ui_utils.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../app_theme.dart';
 import '../home_screen.dart';
+import '../providers/settings_provider.dart';
 import '../providers/user_provider.dart';
 import '../widgets/default_elevated_button.dart';
 
@@ -26,6 +28,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -40,9 +44,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Image.asset('assets/images/logo.png', width: 142, height: 27),
                 const SizedBox(height: 47),
                 Align(
-                  alignment: .centerLeft,
+                  alignment: settingsProvider.isArabic
+                      ? .centerRight
+                      : .centerLeft,
                   child: Text(
-                    'Create your account',
+                    appLocalizations.createYourAccount,
                     style: textTheme.headlineSmall,
                   ),
                 ),
@@ -51,11 +57,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: nameController,
                   validator: (value) {
                     if (value == null || value.length < 2) {
-                      return 'Please enter your name';
+                      return appLocalizations.nameValidator;
                     }
                     return null;
                   },
-                  hintText: 'Enter your name',
+                  hintText: appLocalizations.enterYourName,
                   prefixIconImageName: 'user',
                 ),
                 const SizedBox(height: 16),
@@ -63,11 +69,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: emailController,
                   validator: (value) {
                     if (value == null || value.length < 2) {
-                      return 'Please enter your email';
+                      return appLocalizations.emailValidator;
                     }
                     return null;
                   },
-                  hintText: 'Enter your email',
+                  hintText: appLocalizations.enterYourEmail,
                   prefixIconImageName: 'email',
                 ),
                 const SizedBox(height: 16),
@@ -75,28 +81,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: passwordController,
                   validator: (value) {
                     if (value == null || value.length < 6) {
-                      return 'Please enter your password with at least 6 characters';
+                      return appLocalizations.passwordValidator;
                     }
                     return null;
                   },
-                  hintText: 'Enter your password',
+                  hintText: appLocalizations.enterYourPassword,
                   prefixIconImageName: 'password',
                   isPassword: true,
                 ),
                 const SizedBox(height: 52),
-                DefaultElevatedButton(onPressed: register, label: 'Register'),
+                DefaultElevatedButton(
+                  onPressed: register,
+                  label: appLocalizations.register,
+                ),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: .center,
                   children: [
                     Text(
-                      'Already have an account?',
+                      appLocalizations.alreadyHaveAnAccount,
                       style: textTheme.titleSmall,
                     ),
                     TextButton(
                       onPressed: () =>
                           Navigator.of(context).pushReplacementNamed('/login'),
-                      child: Text('Login'),
+                      child: Text(appLocalizations.login),
                     ),
                   ],
                 ),
@@ -111,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(width: 16),
                     Text(
-                      'OR',
+                      appLocalizations.or,
                       style: textTheme.titleMedium!.copyWith(
                         color: AppTheme.primary,
                       ),
@@ -127,7 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 24),
                 DefaultElevatedButton(
                   onPressed: () {},
-                  label: 'Sign up with Google',
+                  label: appLocalizations.signUpWithGoogle,
                   backgroundColor: Theme.of(context).cardColor,
                   foregroundColor: Theme.of(context).primaryColor,
                   icon: 'google',

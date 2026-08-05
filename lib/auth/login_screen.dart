@@ -5,8 +5,8 @@ import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../app_theme.dart';
+import '../l10n/app_localizations.dart';
+import '../providers/settings_provider.dart';
 import '../ui_utils.dart';
 import '../widgets/default_elevated_button.dart';
 
@@ -24,8 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    Color primaryColor = Theme.of(context).primaryColor;
     TextTheme textTheme = Theme.of(context).textTheme;
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -38,9 +38,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 Image.asset('assets/images/logo.png', height: 27),
                 const SizedBox(height: 48),
                 Align(
-                  alignment: .centerLeft,
+                  alignment: settingsProvider.isArabic
+                      ? .centerRight
+                      : .centerLeft,
                   child: Text(
-                    'Login to your account',
+                    AppLocalizations.of(context)!.loginToYourAccount,
                     style: textTheme.headlineSmall,
                   ),
                 ),
@@ -48,11 +50,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 DefaultTextFormField(
                   controller: emailController,
                   onChange: (value) {},
-                  hintText: 'Enter your email',
+                  hintText: AppLocalizations.of(context)!.enterYourEmail,
                   prefixIconImageName: 'email',
                   validator: (value) {
                     if (value == null || value.length < 2) {
-                      return 'Please enter your email';
+                      return AppLocalizations.of(context)!.emailValidator;
                     }
                     return null;
                   },
@@ -61,12 +63,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 DefaultTextFormField(
                   controller: passwordController,
                   onChange: (value) {},
-                  hintText: 'Enter your email',
+                  hintText: AppLocalizations.of(context)!.enterYourPassword,
                   prefixIconImageName: 'password',
                   isPassword: true,
                   validator: (value) {
                     if (value == null || value.length < 6) {
-                      return 'Please enter your password with at least 6 characters';
+                      return AppLocalizations.of(context)!.passwordValidator;
                     }
                     return null;
                   },
@@ -76,24 +78,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: .centerRight,
                   child: TextButton(
                     onPressed: () {},
-                    child: Text('Forgot password?'),
+                    child: Text(AppLocalizations.of(context)!.forgotPassword),
                   ),
                 ),
                 const SizedBox(height: 48),
-                DefaultElevatedButton(onPressed: login, label: 'Login'),
+                DefaultElevatedButton(
+                  onPressed: login,
+                  label: AppLocalizations.of(context)!.login,
+                ),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: .center,
                   children: [
                     Text(
-                      'Don\'t have an account?',
+                      AppLocalizations.of(context)!.doNotHaveAnAccount,
                       style: textTheme.titleSmall,
                     ),
                     TextButton(
                       onPressed: () => Navigator.of(
                         context,
                       ).pushReplacementNamed('/register'),
-                      child: Text('Register'),
+                      child: Text(AppLocalizations.of(context)!.register),
                     ),
                   ],
                 ),
@@ -108,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(width: 16),
                     Text(
-                      'OR',
+                      AppLocalizations.of(context)!.or,
                       style: textTheme.titleMedium!.copyWith(
                         color: Theme.of(context).primaryColor,
                       ),
@@ -124,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
                 DefaultElevatedButton(
                   onPressed: () {},
-                  label: 'Login in with Google',
+                  label: AppLocalizations.of(context)!.loginInWithGoogle,
                   backgroundColor: Theme.of(context).cardColor,
                   foregroundColor: Theme.of(context).primaryColor,
                   icon: 'google',

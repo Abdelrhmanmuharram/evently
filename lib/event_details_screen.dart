@@ -1,11 +1,14 @@
 import 'package:evently/firebase_service.dart';
+import 'package:evently/providers/settings_provider.dart';
 import 'package:evently/widgets/action_item.dart';
 import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:evently/widgets/info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'app_theme.dart';
 import 'edit_event_screen.dart';
+import 'l10n/app_localizations.dart';
 import 'models/event_model.dart';
 
 class EventDetailsScreen extends StatelessWidget {
@@ -14,15 +17,24 @@ class EventDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     EventModel event = ModalRoute.of(context)!.settings.arguments as EventModel;
     TextTheme textTheme = Theme.of(context).textTheme;
-    Color primaryColor = Theme.of(context).primaryColor;
     MediaQueryData screenSize = MediaQuery.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: ActionItem(),
-        title: Text('Edit details'),
+        leading: ActionItem(
+          svgPicture: settingsProvider.isArabic
+              ? settingsProvider.isDark
+                  ? 'arrow_right'
+                  : 'arrow_right_light'
+              : settingsProvider.isDark
+              ? 'arrow_back_light'
+              : 'arrow_back',
+        ),
+        title: Text(appLocalizations.details),
         actions: [
           ActionItem(
             svgPicture: 'edit',
@@ -49,17 +61,28 @@ class EventDetailsScreen extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: AppTheme.secondText.withAlpha(50)),
+                border: Border.all(
+                  color: settingsProvider.isDark
+                      ? AppTheme.borderDark
+                      : AppTheme.secondText.withAlpha(50),
+                ),
                 borderRadius: BorderRadius.circular(18),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(18),
-                child: Image.asset(
-                  'assets/images/${event.category.imageName}.png',
-                  width: .infinity,
-                  height: screenSize.size.height * .23,
-                  fit: .fill,
-                ),
+                child: settingsProvider.isDark
+                    ? Image.asset(
+                        'assets/images/${event.category.type}_dark.png',
+                        width: .infinity,
+                        height: screenSize.size.height * .23,
+                        fit: .fill,
+                      )
+                    : Image.asset(
+                        'assets/images/${event.category.type}.png',
+                        width: .infinity,
+                        height: screenSize.size.height * .23,
+                        fit: .fill,
+                      ),
               ),
             ),
             const SizedBox(height: 16),
@@ -73,7 +96,7 @@ class EventDetailsScreen extends StatelessWidget {
               DateFormat('h:mm a').format(event.dateTime),
             ),
             const SizedBox(height: 16),
-            Text('Description', style: textTheme.titleMedium),
+            Text(appLocalizations.description, style: textTheme.titleMedium),
             const SizedBox(height: 16),
             DefaultTextFormField(
               hintText: '',

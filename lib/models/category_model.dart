@@ -1,31 +1,29 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 
 class CategoryModel {
-  String id;
-  String name;
-  IconData icon;
-  String imageName;
+  final String id;
+  final String iconPath;
+  final String type;
 
-  CategoryModel({
-    required this.id,
-    required this.name,
-    required this.imageName,
-    required this.icon,
-  });
+  CategoryModel({required this.id, required this.type, required this.iconPath});
+
+  String getName(AppLocalizations appLocalizations) {
+    switch (type) {
+      case 'sport':
+        return appLocalizations.sports;
+      case 'birthday':
+        return appLocalizations.birthday;
+      default:
+        return '';
+    }
+  }
 
   static List<CategoryModel> categories = [
-    CategoryModel(
-      id: '1',
-      name: 'Sport',
-      imageName: 'sport',
-      icon: Icons.sports_baseball,
-    ),
+    CategoryModel(id: '1', type: 'sport', iconPath: 'assets/icons/sport.svg'),
     CategoryModel(
       id: '2',
-      name: 'Birthday',
-      imageName: 'birthday',
-      icon: Icons.cake_outlined,
+      type: 'birthday',
+      iconPath: 'assets/icons/birthday.svg',
     ),
   ];
 }

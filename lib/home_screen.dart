@@ -5,6 +5,8 @@ import 'package:evently/tabs/home/home_tab.dart';
 import 'package:evently/tabs/profile/profile_tab.dart';
 import 'package:flutter/material.dart';
 
+import 'l10n/app_localizations.dart';
+
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
   const HomeScreen({super.key});
@@ -18,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> tabs = [HomeTab(), FavoriteTab(), ProfileTab()];
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       body: tabs[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -32,17 +35,17 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: NavBarIcon(iconName: 'home'),
             activeIcon: NavBarIcon(iconName: 'home_active'),
-            label: 'Home',
+            label: appLocalizations.home,
           ),
           BottomNavigationBarItem(
             icon: NavBarIcon(iconName: 'favorite'),
             activeIcon: NavBarIcon(iconName: 'favorite_active'),
-            label: 'Favorite',
+            label: appLocalizations.favorite,
           ),
           BottomNavigationBarItem(
             icon: NavBarIcon(iconName: 'profile'),
             activeIcon: NavBarIcon(iconName: 'profile_active'),
-            label: 'Profile',
+            label: appLocalizations.profile,
           ),
         ],
       ),

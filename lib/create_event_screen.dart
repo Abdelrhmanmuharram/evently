@@ -1,6 +1,7 @@
 import 'package:evently/firebase_service.dart';
 import 'package:evently/models/category_model.dart';
 import 'package:evently/models/event_model.dart';
+import 'package:evently/providers/settings_provider.dart';
 import 'package:evently/tabs/home/tab_item.dart';
 import 'package:evently/ui_utils.dart';
 import 'package:evently/widgets/action_item.dart';
@@ -9,8 +10,10 @@ import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'app_theme.dart';
+import 'l10n/app_localizations.dart';
 
 class CreateEventScreen extends StatefulWidget {
   static const String routeName = '/create-event';
@@ -32,10 +35,23 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(leading: ActionItem(), title: Text('Add event')),
+      appBar: AppBar(
+        leading: ActionItem(
+          svgPicture: settingsProvider.isArabic
+              ? settingsProvider.isDark
+                    ? 'arrow_right'
+                    : 'arrow_right_light'
+              : settingsProvider.isDark
+              ? 'arrow_back_light'
+              : 'arrow_back',
+        ),
+        title: Text(appLocalizations.addEvent),
+      ),
       body: Form(
         key: formKey,
         child: Column(
@@ -45,15 +61,25 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppTheme.line),
+                  border: Border.all(
+                    color: settingsProvider.isDark
+                        ? AppTheme.borderDark
+                        : AppTheme.line,
+                  ),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    'assets/images/${selectedCategory.imageName}.png',
-                    width: double.infinity,
-                    fit: .fill,
-                  ),
+                  child: settingsProvider.isDark
+                      ? Image.asset(
+                          'assets/images/${selectedCategory.type}_dark.png',
+                          width: double.infinity,
+                          fit: .fill,
+                        )
+                      : Image.asset(
+                          'assets/images/${selectedCategory.type}.png',
+                          width: double.infinity,
+                          fit: .fill,
+                        ),
                 ),
               ),
             ),
@@ -65,8 +91,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   tabs: CategoryModel.categories
                       .map(
                         (category) => TabItem(
-                          label: category.name,
-                          icon: category.icon,
+                          label: category.getName(
+                            AppLocalizations.of(context)!,
+                          ),
+                          iconPath: category.iconPath,
                           isSelected:
                               currentIndex ==
                               CategoryModel.categories.indexOf(category),
@@ -95,35 +123,37 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               child: Column(
                 crossAxisAlignment: .start,
                 children: [
-                  Text('Title', style: textTheme.titleMedium),
+                  Text(appLocalizations.title, style: textTheme.titleMedium),
+                  const SizedBox(height: 4),
                   DefaultTextFormField(
                     controller: titleController,
                     validator: (value) {
                       if (value == null || value.length < 2) {
-                        return 'Please enter your title';
+                        return appLocalizations.pleaseEnterYourTitle;
                       }
                       return null;
                     },
-                    hintText: 'Event title',
+                    hintText: appLocalizations.eventTitle,
                   ),
                   const SizedBox(height: 4),
-                  Text('Description', style: textTheme.titleMedium),
+                  Text(appLocalizations.description, style: textTheme.titleMedium),
+                  const SizedBox(height: 4),
                   DefaultTextFormField(
                     controller: descriptionController,
                     validator: (value) {
                       if (value == null || value.length < 2) {
-                        return 'Please enter your description';
+                        return appLocalizations.pleaseEnterYourDescription;
                       }
                       return null;
                     },
-                    hintText: 'Event description',
+                    hintText: appLocalizations.eventDescription,
                     maxLine: 5,
                   ),
                   Row(
                     children: [
                       SvgPicture.asset('assets/icons/calendar.svg'),
                       const SizedBox(width: 8),
-                      Text('Event Date', style: textTheme.titleMedium),
+                      Text(appLocalizations.eventDate, style: textTheme.titleMedium),
                       const Spacer(),
                       TextButton(
                         onPressed: () async {
@@ -141,7 +171,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         },
                         child: Text(
                           selectedDate == null
-                              ? 'Choose date'
+                              ? appLocalizations.chooseDate
                               : dateFormat.format(selectedDate!),
                         ),
                       ),
@@ -151,7 +181,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     children: [
                       SvgPicture.asset('assets/icons/clock.svg'),
                       const SizedBox(width: 8),
-                      Text('Event Time', style: textTheme.titleMedium),
+                      Text(appLocalizations.eventTime, style: textTheme.titleMedium),
                       const Spacer(),
                       TextButton(
                         onPressed: () async {
@@ -166,14 +196,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           }
                         },
                         child: Text(
-                          selectedTime?.format(context) ?? 'Choose time',
+                          selectedTime?.format(context) ?? appLocalizations.chooseTime,
                         ),
                       ),
                     ],
                   ),
                   DefaultElevatedButton(
                     onPressed: createEvent,
-                    label: 'Add event',
+                    label: appLocalizations.addEvent,
                   ),
                 ],
               ),
@@ -201,12 +231,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         description: descriptionController.text,
         dateTime: date,
       );
-      FirebaseService.createEvent(event).then((_) {
-        Navigator.of(context).pop();
-        UIUtils.showSuccessMessage('Event created successfully');
-      }).catchError((_) {
-        UIUtils.showErrorMessage('Failed to create event');
-      });
+      FirebaseService.createEvent(event)
+          .then((_) {
+            Navigator.of(context).pop();
+            UIUtils.showSuccessMessage('Event created successfully');
+          })
+          .catchError((_) {
+            UIUtils.showErrorMessage('Failed to create event');
+          });
     }
   }
 }

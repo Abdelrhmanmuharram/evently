@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../app_theme.dart';
 import '../../auth/login_screen.dart';
 import '../../firebase_service.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/language_model.dart';
 import '../../models/user_model.dart';
 import '../../providers/settings_provider.dart';
@@ -17,6 +18,7 @@ class ProfileTab extends StatelessWidget {
   Widget build(BuildContext context) {
     UserModel currentUser = Provider.of<UserProvider>(context).currentUser!;
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     TextTheme textTheme = Theme.of(context).textTheme;
     Color primaryColor = Theme.of(context).primaryColor;
     return SafeArea(
@@ -39,7 +41,7 @@ class ProfileTab extends StatelessWidget {
               onChanged: (isDark) {
                 settingsProvider.changeTheme(isDark ? .dark : .light);
               },
-              title: Text('Dark Mode'),
+              title: Text(appLocalizations.darkMode),
               tileColor: Theme.of(context).cardColor,
               activeTrackColor: primaryColor,
               activeThumbColor: AppTheme.switchBackground,
@@ -48,26 +50,29 @@ class ProfileTab extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ListTile(
-              title: Text('Language'),
+              title: Text(appLocalizations.language),
               trailing: DropdownButton(
-                value: 'en',
+                value: settingsProvider.languageCode,
                 underline: const SizedBox(),
                 items: LanguageModel.languages
                     .map(
                       (language) => DropdownMenuItem(
                         value: language.code,
-                        child: Text(language.name),
+                        child: Text(language.getLanguageName(appLocalizations)),
                       ),
                     )
                     .toList(),
-                onChanged: (value) {},
+                onChanged: (languageCode) {
+                  if (languageCode == null) return;
+                  settingsProvider.changeLanguage(languageCode);
+                },
                 borderRadius: BorderRadius.circular(16),
                 dropdownColor: AppTheme.white,
               ),
             ),
             const SizedBox(height: 16),
             ListTile(
-              title: Text('Logout'),
+              title: Text(appLocalizations.logOut),
               trailing: InkWell(
                 onTap: () => FirebaseService.logout().then((_) {
                   Navigator.of(

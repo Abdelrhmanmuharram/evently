@@ -2,6 +2,7 @@ import 'package:evently/widgets/default_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/events_provider.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/event_item.dart';
@@ -31,6 +32,7 @@ class _FavoriteTabState extends State<FavoriteTab> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     eventsProvider = Provider.of<EventsProvider>(context);
     return SafeArea(
       child: Padding(
@@ -38,7 +40,7 @@ class _FavoriteTabState extends State<FavoriteTab> {
         child: Column(
           children: [
             DefaultTextFormField(
-              hintText: 'Search for events',
+              hintText: appLocalizations.searchForEvent,
               suffixIconImageName: 'search',
               onChange: (query) {
                 eventsProvider.searchFavoriteEvents(query);

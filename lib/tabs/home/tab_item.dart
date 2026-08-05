@@ -1,17 +1,18 @@
 import 'package:evently/app_theme.dart';
 import 'package:evently/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class TabItem extends StatelessWidget {
   String label;
-  IconData icon;
+  String iconPath;
   bool isSelected;
   TabItem({
     super.key,
     required this.isSelected,
     required this.label,
-    required this.icon,
+    required this.iconPath,
   });
 
   @override
@@ -37,7 +38,15 @@ class TabItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, color: isSelected ? AppTheme.white : primaryColor),
+          SvgPicture.asset(
+            iconPath,
+            width: 24,
+            height: 24,
+            colorFilter: ColorFilter.mode(
+              isSelected ? AppTheme.white : primaryColor,
+              BlendMode.srcIn,
+            ),
+          ),
           const SizedBox(width: 8),
           Text(
             label,

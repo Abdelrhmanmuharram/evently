@@ -42,13 +42,13 @@ class EventItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(18),
               child: settingsProvider.isDark
                   ? Image.asset(
-                      'assets/images/${event.category.imageName}_dark.png',
+                      'assets/images/${event.category.type}_dark.png',
                       width: .infinity,
                       height: screenSize.size.height * .23,
                       fit: .fill,
                     )
                   : Image.asset(
-                      'assets/images/${event.category.imageName}.png',
+                      'assets/images/${event.category.type}.png',
                       width: .infinity,
                       height: screenSize.size.height * .23,
                       fit: .fill,
