@@ -19,7 +19,6 @@ class SettingsProvider with ChangeNotifier {
     SharedPreferencesService.saveTheme(
       theme == ThemeMode.dark,
     );
-    print("Saved Theme: ${theme == ThemeMode.dark}");
     notifyListeners();
   }
 
@@ -27,15 +26,12 @@ class SettingsProvider with ChangeNotifier {
     if (languageCode == language) return;
     languageCode = language;
     SharedPreferencesService.saveLanguage(language);
-    print("Saved Language: $language");
     notifyListeners();
   }
 
   void loadSettings() {
     languageCode = SharedPreferencesService.getLanguage();
     bool isDark = SharedPreferencesService.getTheme();
-    print("Language: $languageCode");
-    print("IsDark: $isDark");
     themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
   }
