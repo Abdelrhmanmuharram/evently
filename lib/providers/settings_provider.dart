@@ -11,6 +11,7 @@ class SettingsProvider with ChangeNotifier {
   }
 
   bool get isDark => themeMode == .dark;
+
   bool get isArabic => languageCode == 'ar';
 
   void changeTheme(ThemeMode theme) {
