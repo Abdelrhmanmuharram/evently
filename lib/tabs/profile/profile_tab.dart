@@ -7,6 +7,7 @@ import '../../auth/login_screen.dart';
 import '../../firebase_service.dart';
 import '../../models/language_model.dart';
 import '../../models/user_model.dart';
+import '../../providers/settings_provider.dart';
 import '../../providers/user_provider.dart';
 
 class ProfileTab extends StatelessWidget {
@@ -15,6 +16,7 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserModel currentUser = Provider.of<UserProvider>(context).currentUser!;
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     Color primaryColor = Theme.of(context).primaryColor;
     return SafeArea(
@@ -33,10 +35,12 @@ class ProfileTab extends StatelessWidget {
             Text(currentUser.email, style: textTheme.titleSmall),
             const SizedBox(height: 32),
             SwitchListTile(
-              value: true,
-              onChanged: (value) {},
+              value: settingsProvider.isDark,
+              onChanged: (isDark) {
+                settingsProvider.changeTheme(isDark ? .dark : .light);
+              },
               title: Text('Dark Mode'),
-              tileColor: AppTheme.white,
+              tileColor: Theme.of(context).cardColor,
               activeTrackColor: primaryColor,
               activeThumbColor: AppTheme.switchBackground,
               thumbColor: WidgetStatePropertyAll(AppTheme.white),

@@ -15,10 +15,14 @@ class AppTheme {
   static const Color grey = Color(0xFFB9B9B9);
   static const Color line = Color(0xFFF0F0F0);
   static const Color disable = Color(0xFFB9B9B9);
+  static const Color navy = Color(0xFF001440);
+  static const Color borderDark = Color(0xFF002D8F);
+  static const Color secDark = Color(0xFFD6D6D6);
 
 
   static ThemeData lightTheme = ThemeData(
     primaryColor: primary,
+    cardColor: white,
     scaffoldBackgroundColor: background,
     appBarTheme: AppBarThemeData(
       backgroundColor: background,
@@ -125,5 +129,113 @@ class AppTheme {
       ),
     ),
   );
-  static ThemeData darkTheme = ThemeData();
+  static ThemeData darkTheme = ThemeData(
+    primaryColor: primaryDark,
+    cardColor: navy,
+    scaffoldBackgroundColor: backgroundDark,
+    appBarTheme: AppBarThemeData(
+        backgroundColor: backgroundDark,
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          fontSize: 18,
+          fontWeight: .w600,
+          color: white,
+        ),
+        leadingWidth: 60
+    ),
+
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: backgroundDark,
+      selectedItemColor: primaryDark,
+      unselectedItemColor: secondText,
+      type: BottomNavigationBarType.fixed,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: primaryDark,
+      foregroundColor: white,
+      shape: CircleBorder(),
+    ),
+    inputDecorationTheme: InputDecorationThemeData(
+      filled: true,
+      fillColor: navy,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide.none,
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      hintStyle: TextStyle(
+        color: secondText,
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: secondText.withAlpha(50)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: primaryDark),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: red),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: red),
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: primaryDark,
+        textStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: .w600,
+          decoration: .underline,
+        ),
+      ),
+    ),
+    listTileTheme: ListTileThemeData(
+      tileColor: navy,
+      minTileHeight: 0,
+      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: AppTheme.secondText.withAlpha(50)),
+      ),
+      titleTextStyle: TextStyle(
+        color: white,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+    textTheme: TextTheme(
+      titleSmall: TextStyle(
+        color: secDark,
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+      ),
+      titleMedium: TextStyle(
+        color: white,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
+      titleLarge: TextStyle(
+        color: white,
+        fontSize: 20,
+        fontWeight: FontWeight.w500,
+      ),
+      headlineSmall: TextStyle(
+        color: white,
+        fontSize: 24,
+        fontWeight: FontWeight.w800,
+      ),
+    ),
+  );
 }

@@ -128,8 +128,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 DefaultElevatedButton(
                   onPressed: () {},
                   label: 'Sign up with Google',
-                  backgroundColor: AppTheme.white,
-                  foregroundColor: AppTheme.primary,
+                  backgroundColor: Theme.of(context).cardColor,
+                  foregroundColor: Theme.of(context).primaryColor,
                   icon: 'google',
                 ),
               ],

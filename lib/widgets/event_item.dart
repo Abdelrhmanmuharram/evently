@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../event_details_screen.dart';
+import '../providers/settings_provider.dart';
 import '../providers/user_provider.dart';
 
 class EventItem extends StatelessWidget {
@@ -15,6 +16,7 @@ class EventItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     bool isFavorite = userProvider.checkFavoriteEvent(event.id);
     TextTheme textTheme = Theme.of(context).textTheme;
     Color primaryColor = Theme.of(context).primaryColor;
@@ -29,26 +31,43 @@ class EventItem extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: AppTheme.secondText.withAlpha(50)),
+              border: Border.all(
+                color: settingsProvider.isDark
+                    ? AppTheme.borderDark
+                    : AppTheme.secondText.withAlpha(50),
+              ),
               borderRadius: BorderRadius.circular(18),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(18),
-              child: Image.asset(
-                'assets/images/${event.category.imageName}.png',
-                width: .infinity,
-                height: screenSize.size.height * .23,
-                fit: .fill,
-              ),
+              child: settingsProvider.isDark
+                  ? Image.asset(
+                      'assets/images/${event.category.imageName}_dark.png',
+                      width: .infinity,
+                      height: screenSize.size.height * .23,
+                      fit: .fill,
+                    )
+                  : Image.asset(
+                      'assets/images/${event.category.imageName}.png',
+                      width: .infinity,
+                      height: screenSize.size.height * .23,
+                      fit: .fill,
+                    ),
             ),
           ),
           Container(
             margin: EdgeInsets.all(8),
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppTheme.background,
+              color: settingsProvider.isDark
+                  ? AppTheme.backgroundDark
+                  : AppTheme.background,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppTheme.secondText.withAlpha(50)),
+              border: Border.all(
+                color: settingsProvider.isDark
+                    ? AppTheme.borderDark
+                    : AppTheme.secondText.withAlpha(50),
+              ),
             ),
             child: Text(
               DateFormat('d MMM').format(event.dateTime),
@@ -65,9 +84,15 @@ class EventItem extends StatelessWidget {
               margin: EdgeInsets.all(8),
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.background,
+                color: settingsProvider.isDark
+                    ? AppTheme.backgroundDark
+                    : AppTheme.background,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppTheme.secondText.withAlpha(50)),
+                border: Border.all(
+                  color: settingsProvider.isDark
+                      ? AppTheme.borderDark
+                      : AppTheme.secondText.withAlpha(50),
+                ),
               ),
               child: Row(
                 children: [
@@ -75,7 +100,9 @@ class EventItem extends StatelessWidget {
                     child: Text(
                       event.title,
                       style: textTheme.titleSmall!.copyWith(
-                        color: AppTheme.mainText,
+                        color: settingsProvider.isDark
+                            ? AppTheme.white
+                            : AppTheme.mainText,
                         fontWeight: .bold,
                       ),
                     ),

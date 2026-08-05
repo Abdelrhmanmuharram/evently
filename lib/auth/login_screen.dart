@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../app_theme.dart';
 import '../ui_utils.dart';
 import '../widgets/default_elevated_button.dart';
 
@@ -23,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    Color primaryColor = Theme.of(context).primaryColor;
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -122,8 +124,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
                 DefaultElevatedButton(
                   onPressed: () {},
-                  label: 'Sign in with Google',
-                  backgroundColor: Colors.white,
+                  label: 'Login in with Google',
+                  backgroundColor: Theme.of(context).cardColor,
                   foregroundColor: Theme.of(context).primaryColor,
                   icon: 'google',
                 ),
